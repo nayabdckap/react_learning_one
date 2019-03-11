@@ -16,6 +16,8 @@ export default class Create extends Component {
     }
 
     onChangePersonName(e) {
+        // console.log(e)
+        console.log('Hey!')
         this.setState({
             person_name: e.target.value
         });
@@ -77,6 +79,21 @@ export default class Create extends Component {
                         <input type="submit" value="Register Business" className="btn btn-primary"/>
                     </div>
                 </form>
+                <NewComponent param_person={this.state.person_name}/>
+            </div>
+        )
+    }
+}
+
+class NewComponent extends Component {
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        return (
+            <div>
+                {this.props.param_person}
             </div>
         )
     }
