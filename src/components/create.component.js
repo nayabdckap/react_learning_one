@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 export default class Create extends Component {
     render() {
+        console.log('This was triggered during render method')
         return (
             <div style={{marginTop: 10}}>
                 <h3>Add New Business</h3>
