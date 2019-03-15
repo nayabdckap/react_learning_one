@@ -11,13 +11,16 @@ export default class Create extends Component {
         this.state = {
             person_name: '',
             business_name: '',
-            business_gst_number: ''
+            business_gst_number: '',
+            data_test: {
+                person: [],
+                business: [],
+                gst: []
+            }
         }
     }
 
     onChangePersonName(e) {
-        // console.log(e)
-        console.log('Hey!')
         this.setState({
             person_name: e.target.value
         });
@@ -37,12 +40,36 @@ export default class Create extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        console.log(`The values are ${this.state.person_name}, ${this.state.business_name}, and ${this.state.business_gst_number}`)
+        var collection_temp = this.state.data_test;
+        collection_temp.person.push(this.state.person_name);
+        collection_temp.business.push(this.state.business_name);
+        collection_temp.gst.push(this.state.business_gst_number);
         this.setState({
             person_name: '',
             business_name: '',
-            business_gst_number: ''
+            business_gst_number: '',
+            data_test: collection_temp
         })
+    }
+
+    delete_item(index) {
+        // var item = this.state
+        // item.splice(index, 1);
+        // console.log(this.state.data_test.person)
+        console.log('hey')
+        var item = this.state.data_test.person.filter((name) => {
+            return name != this.state.data_test.person[index]
+        })
+        // this.setState({
+        //     data_test: item
+        // });
+    }
+
+    update_item(e) {
+        // var item = this.state.data_test;
+        // this.setState({
+        //     data_test: item
+        // })
     }
 
     render() {
@@ -79,7 +106,8 @@ export default class Create extends Component {
                         <input type="submit" value="Register Business" className="btn btn-primary"/>
                     </div>
                 </form>
-                <NewComponent param_person={this.state.person_name}/>
+                <NewComponent params_new={this.state.data_test} deleteVal={this.delete_item.bind(this)}
+                              editVal={this.update_item.bind(this)}/>
             </div>
         )
     }
@@ -91,10 +119,53 @@ class NewComponent extends Component {
     }
 
     render() {
-        return (
-            <div>
-                {this.props.param_person}
-            </div>
-        )
+        if (this.props.params_new != null) {
+            return (
+                <div>
+                    <table className="table">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Business</th>
+                            <th>GST</th>
+                            <th>Edit</th>
+                            <th>Remove</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        {Object.keys(this.props.params_new).map((item, index) => {
+                                return (
+                                    <tr>
+                                        <td>{this.props.params_new.person[index]}</td>
+                                        <td>{this.props.params_new.business[index]}</td>
+                                        <td>{this.props.params_new.gst[index]}</td>
+                                        <td><input type="button"
+                                                   className="btn btn-warning"
+                                                   value="Edit"
+                                                   onClick={this.props.editVal(index)}
+                                        /></td>
+                                        <td><input type="button"
+                                                   className="btn btn-danger"
+                                                   value="Remove"
+                                                   method="delete"
+                                                   onClick={this.props.deleteVal(index)}
+                                        /></td>
+                                    </tr>
+                                )
+                            }
+                        )}
+
+                        </tbody>
+                    </table>
+                </div>
+            )
+        } else {
+            return (
+                <div>Void</div>
+            )
+        }
+
     }
 }
