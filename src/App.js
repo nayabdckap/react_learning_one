@@ -3,17 +3,19 @@ import React, {Component} from 'react';
 export default class Create extends Component {
     constructor(props) {
         super(props);
-        this.onChangePersonName = this.onChangePersonName.bind(this);
+        this.onChangePersonName = this.onChangePersonName.bind(this); // bind(this) for using this inside that method
         this.onChangeBusinessName = this.onChangeBusinessName.bind(this);
         this.onChangeGstNumber = this.onChangeGstNumber.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.delete_item = this.delete_item.bind(this);
+        this.update_item = this.update_item.bind(this);
 
         this.state = {
             person_name: '',
             business_name: '',
             business_gst_number: '',
             data_test: {
-                person: [],
+                person: [],  // use separate component
                 business: [],
                 gst: []
             }
@@ -55,14 +57,18 @@ export default class Create extends Component {
     delete_item(index) {
         // var item = this.state
         // item.splice(index, 1);
-        // console.log(this.state.data_test.person)
         console.log('hey')
-        var item = this.state.data_test.person.filter((name) => {
-            return name != this.state.data_test.person[index]
-        })
-        // this.setState({
-        //     data_test: item
-        // });
+        // debugger
+        var test_var = this.state.data_test
+        test_var.person = this.state.data_test.person.filter((name) => name != this.state.data_test.person[index])
+        test_var.business = this.state.data_test.business.filter((name) => name != this.state.data_test.business[index])
+        test_var.gst = this.state.data_test.gst.filter((name) => name != this.state.data_test.gst[index])
+        // var item = this.state.data_test.person.filter((name) => {
+        //     return name != this.state.data_test.person[index]
+        // })
+        this.setState({
+            data_test: test_var
+        });
     }
 
     update_item(e) {
@@ -106,8 +112,8 @@ export default class Create extends Component {
                         <input type="submit" value="Register Business" className="btn btn-primary"/>
                     </div>
                 </form>
-                <NewComponent params_new={this.state.data_test} deleteVal={this.delete_item.bind(this)}
-                              editVal={this.update_item.bind(this)}/>
+                <NewComponent params_new={this.state.data_test} deleteVal={this.delete_item}
+                              editVal={this.update_item}/>
             </div>
         )
     }
@@ -119,7 +125,7 @@ class NewComponent extends Component {
     }
 
     render() {
-        if (this.props.params_new != null) {
+        if (this.props.params_new.person.length > 0) {
             return (
                 <div>
                     <table className="table">
@@ -134,23 +140,22 @@ class NewComponent extends Component {
                         </thead>
                         <tbody>
 
-
-                        {Object.keys(this.props.params_new).map((item, index) => {
+                        {(this.props.params_new.person).map((item, index) => {
                                 return (
-                                    <tr>
+                                    <tr key={index}>
                                         <td>{this.props.params_new.person[index]}</td>
                                         <td>{this.props.params_new.business[index]}</td>
                                         <td>{this.props.params_new.gst[index]}</td>
                                         <td><input type="button"
                                                    className="btn btn-warning"
                                                    value="Edit"
-                                                   onClick={this.props.editVal(index)}
+                                                   onClick={() => this.props.editVal(index)}
                                         /></td>
                                         <td><input type="button"
                                                    className="btn btn-danger"
                                                    value="Remove"
                                                    method="delete"
-                                                   onClick={this.props.deleteVal(index)}
+                                                   onClick={() => this.props.deleteVal(index)}
                                         /></td>
                                     </tr>
                                 )
