@@ -16,6 +16,8 @@ export default class Create extends Component {
             business_gst_number: '',
             current_state: '',
             index_test: '',
+
+            // array way:
             // data_test: {
             //     person: [],
             //     business: [],
@@ -87,7 +89,7 @@ export default class Create extends Component {
         if (index > -1)
             tempArr.splice(index, 1)
 
-
+        // array way:
         // var test_var = this.state.data_test
         // test_var.person = this.state.data_test.person.filter((name) => name != this.state.data_test.person[index])
         // test_var.business = this.state.data_test.business.filter((name) => name != this.state.data_test.business[index])
@@ -177,6 +179,7 @@ class NewComponent extends Component {
                         </thead>
                         <tbody>
 
+                        {/* array way: */}
                         {/*{(this.props.params_new.person).map((item, index) => {*/}
                         {/*return (*/}
                         {/*<tr key={index}>*/}
