@@ -199,25 +199,29 @@ class NewComponent extends Component {
                         {/*}*/}
                         {/*)}*/}
 
+                        {/*{(this.props.params_new.slice(1)).map((item, index) => {*/}
+
                         {(this.props.params_new).map((item, index) => {
-                                return (
-                                    <tr key={index}>
-                                        <td>{item.person}</td>
-                                        <td>{item.business}</td>
-                                        <td>{item.gst}</td>
-                                        <td><input type="button"
-                                                   className="btn btn-warning"
-                                                   value="Edit"
-                                                   onClick={() => this.props.editVal(index)}
-                                        /></td>
-                                        <td><input type="button"
-                                                   className="btn btn-danger"
-                                                   value="Remove"
-                                                   method="delete"
-                                                   onClick={() => this.props.deleteVal(index)}
-                                        /></td>
-                                    </tr>
-                                )
+                                if (index > 0) {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{item.person}</td>
+                                            <td>{item.business}</td>
+                                            <td>{item.gst}</td>
+                                            <td><input type="button"
+                                                       className="btn btn-warning"
+                                                       value="Edit"
+                                                       onClick={() => this.props.editVal(index)}
+                                            /></td>
+                                            <td><input type="button"
+                                                       className="btn btn-danger"
+                                                       value="Remove"
+                                                       method="delete"
+                                                       onClick={() => this.props.deleteVal(index)}
+                                            /></td>
+                                        </tr>
+                                    )
+                                }
                             }
                         )}
 
